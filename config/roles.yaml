@@ -1,0 +1,20 @@
+---
+roles:
+  pe-puppet-master:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 4096]
+    provisioners:
+      - {type: shell, inline: 'service iptables stop && chkconfig iptables off'}
+      - {type: hosts, add_localhost_hostnames: false, sync_hosts: true}
+      - {type: pe_bootstrap, role: !ruby/sym master}
+
+  pe-puppet-agent:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provisioners:
+      - {type: hosts}
+      - {type: pe_agent, master_vm: master}

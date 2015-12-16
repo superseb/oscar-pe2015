@@ -1,0 +1,12 @@
+---
+vms:
+- name: master
+  hostname: master.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-master
+- name: sandbox
+  hostname: sandbox.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent
